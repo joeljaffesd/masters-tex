@@ -1,0 +1,21 @@
+\chapter{ Discussion }
+
+% The enabling of third-party plugins on embedded audio systems is highly desirable, but blah blah blah.
+
+Performance benchmarking in Chapter~\ref{sec:bench} demonstrates that WebAssembly (WASM) can support real-time audio DSP on embedded hardware under certain conditions, but further research is needed to determine the bounds of its performance.
+
+Across the four tested algorithms, interpreter-based execution (\lstinline{wasmi}) did not achieve usable throughput and can be discarded as a runtime approach in future work. Ahead-of-time (AOT) compilation using WAMR and translation via \lstinline{wasm2c} both yielded viable performance for algorithms whose memory footprint is known at compile time, but demonstrated highly variable success with algorithms that do not.
+
+Two patterns are evident. First, strategies that produce native machine code at flash time are markedly more suitable for real-time audio than runtime interpretation of bytecode. Second, runtime overhead is highly workload-dependent. Algorithms that rely heavily on floating-point arithmetic but maintain predictable control flow and limited dynamic allocation are more amenable to WASM deployment.
+
+It is important to note that these measurements were obtained without aggressive runtime customization. Further opportunities for performance gains exist, including better leveraging of host-imported math intrinsics, improved compiler pipelines, and tighter ABI and runtime specialization. The results presented in this work therefore represent a lower bound on achievable performance.
+
+% Even with the limitations displayed in this limited benchmark, the affordances of a universal distributable for audio DSP may in many cases outweigh the performance drawbacks.
+
+A reasonable question remains: if real-time performance of WASM-based DSP modules relies on AOT translation, can they truly be considered a universal distributable? The author argues yes. I encourage conception of the AOT compiler as part of the runtime or flash tool for each target, a responsibility laid on hardware manufacturers looking to increase adoption of their product rather than a burden on audio plugin developers. In some cases, AOT compilation for embedded systems can even occur on the target device, as seen in \cite{10756513}.
+
+% While dependence on an AOT compiler for each target
+
+% may be considered akin to an installer. On-device AOT shrinks this distinction further.
+
+% on-device AOT compilation as discussed in \cite{10756513}.

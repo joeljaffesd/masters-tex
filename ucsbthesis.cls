@@ -258,8 +258,8 @@
     \gdef\@signmonth{#1}
     \gdef\@signyear{#2}}
 % Dedication: specifies the dedication
-\newcommand{\dedication}[1]{
-    \gdef\@dedication{#1}}
+% \newcommand{\dedication}[1]{
+%     \gdef\@dedication{#1}}
 % Acknowledgements: specifies the acknowledgements
 \newcommand{\acknowledgements}[1]{
     \gdef\@acknowledgements{#1}}
@@ -408,12 +408,12 @@
 }
 
 % Make the dedication page
-\newcommand{\makededication}{
-    \null
-    {\@dedication}
-    \null
-    \clearpage
-}
+% \newcommand{\makededication}{
+%     \null
+%     {\@dedication}
+%     \null
+%     \clearpage
+% }
 
 % Make the acknowledgements page
 \newcommand{\makeacknowledgements}{

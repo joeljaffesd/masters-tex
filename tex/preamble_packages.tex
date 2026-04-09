@@ -8,8 +8,15 @@
 \usepackage{algorithmicx}       % \bm{} = bold anything (in math environment)
 \usepackage{algpseudocode}
 \usepackage{verbatim}
+\usepackage{listings}
+\usepackage[table]{xcolor}
 \usepackage{subcaption}
 \usepackage{mathdots}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{float}
+\usepackage{placeins}
 \usepackage{hyperref}
 \usepackage{excludeonly} % Allows use of \excludeonly, opposite of \includeonly
 \usepackage{rotating}
@@ -22,4 +29,14 @@
 }
 \usepackage[backend=bibtex]{biblatex}
 \usepackage[shortcuts]{extdash} % Apparently this must be added *last*
+
+% Code listing style
+\definecolor{mygrey}{rgb}{0.96,0.96,0.96}
+\lstset{
+  tabsize=4,
+  basicstyle=\ttfamily,
+  backgroundcolor=\color{mygrey},
+  captionpos=b,
+  breaklines=true
+}
 
