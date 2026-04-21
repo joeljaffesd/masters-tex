@@ -1,0 +1,55 @@
+\chapter{ Application }
+\label{sec:application}
+
+The primary aim of WebAssembly as a distributable for heterogeneous embedded targets is to enable:
+
+\begin{itemize}
+  \item Rapid prototyping of signal processing algorithms on a desktop computer
+  \item Cooperation between processing modules from multiple authors
+\end{itemize}
+
+To demonstrate how WASM provides these affordances, 
+I've documented the porting of a guitar effects chain from desktop audio software 
+to a system of WASM modules that run both in the browser and on embedded hardware.
+
+\section{ System Architecture }
+
+A system for deploying WASM-based audio processing can be implemented with three major elements:
+
+\begin{itemize}
+  \item A \textit{development environment} for the prototyping of WASM audio modules
+  \item A \textit{registry} for compiled WASM modules that share a consistent ABI
+  \item A \textit{flashing tool} for composing signal graphs of WASM modules
+  and deploying them to an embedded target
+\end{itemize}
+
+To demonstrate how these elements work in concert, I've documented their use 
+in porting of a guitar effects chain from desktop audio software 
+to a system of WASM modules that run both in the browser and on embedded hardware.
+
+\section{ Module Prototyping }
+
+The desired effects chain consists of phaser, distortion, and delay modules. 
+Each are authored separately with differing code styles, 
+but become interoperable when compiled to a consistent WASM ABI via \textit{DaisyOnline}.
+
+The phaser was originally written in C in the Soundspear's Formula development environment, 
+a VST plugin that implements a C code editor and compiler. Adapting the phaser to \textit{DaisyOnline} 
+simply involved adjusting the return type of the Formula function call to \lstinline{float}. 
+See below image.
+
+The distortion module does simple waveshaping using \lstinline{tanh}, 
+and was authored from scratch directly in \textit{DaisyOnline}.
+
+The delay module comes from a pre-existing open-source C++ effects library, \textit{Gimmel}. 
+To adapt the delay to \textit{DaisyOnline}, all necessary C++ code from Gimmel 
+was copied into the single-file interface.
+
+\section{ Module Registry }
+To deliver the precompiled WASM modules to a variety of possible targets, 
+a centralized registry can be used to host the binaries.
+In this work, the registry is implemented as a simple GitHub repository,
+available at ???. A more robust registry might implement such features as versioning, 
+metadata, and module validation.
+
+\section{ Flashing Tool }
