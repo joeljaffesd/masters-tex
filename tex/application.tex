@@ -1,18 +1,18 @@
 \chapter{ Application }
 \label{sec:application}
 
-The primary aim of WebAssembly as a distributable for heterogeneous embedded targets is to enable:
+% The primary aim of WebAssembly as a distributable for heterogeneous embedded targets is to enable:
 
-\begin{itemize}
-  \item Rapid prototyping of signal processing algorithms on a desktop computer
-  \item Cooperation between processing modules from multiple authors
-\end{itemize}
+% \begin{itemize}
+%   \item Rapid prototyping of signal processing algorithms on a desktop computer
+%   \item Cooperation between processing modules from multiple authors
+% \end{itemize}
 
-To demonstrate how WASM provides these affordances, 
-I've documented the porting of a guitar effects chain from desktop audio software 
-to a system of WASM modules that run both in the browser and on embedded hardware.
+% To demonstrate how WASM provides these affordances, 
+% I've documented the porting of a guitar effects chain from desktop audio software 
+% to a system of WASM modules that run both in the browser and on embedded hardware.
 
-\section{ System Architecture }
+% \section{ System Architecture }
 
 A system for deploying WASM-based audio processing can be implemented with three major elements:
 
@@ -24,19 +24,25 @@ A system for deploying WASM-based audio processing can be implemented with three
 \end{itemize}
 
 To demonstrate how these elements work in concert, I've documented their use 
-in porting of a guitar effects chain from desktop audio software 
+in porting a guitar effects chain from desktop audio software 
 to a system of WASM modules that run both in the browser and on embedded hardware.
 
 \section{ Module Prototyping }
 
-The desired effects chain consists of phaser, distortion, and delay modules. 
+The desired effects chain consists of phaser, distortion, and delay effect modules. 
 Each are authored separately with differing code styles, 
 but become interoperable when compiled to a consistent WASM ABI via \textit{DaisyOnline}.
 
-The phaser was originally written in C in the Soundspear's Formula development environment, 
+The phaser was originally written in C in Soundspear's Formula development environment, 
 a VST plugin that implements a C code editor and compiler. Adapting the phaser to \textit{DaisyOnline} 
 simply involved adjusting the return type of the Formula function call to \lstinline{float}. 
-See below image.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\columnwidth]{figures/phaserCode.pdf}
+\caption{\it Phaser module C code adapted from Soundspear Formula to compile on DaisyOnline}
+\label{fig:phaserCode}
+\end{figure}
 
 The distortion module does simple waveshaping using \lstinline{tanh}, 
 and was authored from scratch directly in \textit{DaisyOnline}.
@@ -49,7 +55,35 @@ was copied into the single-file interface.
 To deliver the precompiled WASM modules to a variety of possible targets, 
 a centralized registry can be used to host the binaries.
 In this work, the registry is implemented as a simple GitHub repository,
-available at ???. A more robust registry might implement such features as versioning, 
+available at \url{https://github.com/jaffco/JaffxAudioLibrary}. A more robust registry might implement such features as versioning, 
 metadata, and module validation.
 
 \section{ Flashing Tool }
+
+A good user-facing flash tool 
+will enable the composition of signal graphs using a graphical interface
+and the deployment of the resulting graph to an embedded target with minimal friction.
+Pictured below is an example of such a tool, which enables the series wiring of WASM audio modules
+via a drag-n-drop interface. The composed effects chain can be auditioned in the browser with 
+live audio input, and then flashed onto a Daisy Seed.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\columnwidth]{figures/composer.pdf}
+\caption{\it Signal graph composer UI with drag-and-drop module wiring, preview, and flash-to-Daisy functionality}
+\label{fig:composer}
+\end{figure} 
+
+\section{ Demonstration }
+
+The above pictured signal graph was compiled and flashed 
+to a Daisy Seed pictured below. 
+Audio recorded with the patch running on the device 
+can be found at \url{https://www.youtube.com/watch?v=kGuRd_A_r7Q}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\columnwidth]{figures/embedded_device.pdf}
+\caption{\it Target embedded platform: Daisy Seed microcontroller in a guitar pedal form factor}
+\label{fig:embedded}
+\end{figure}
